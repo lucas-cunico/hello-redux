@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { connect } from 'react-redux';
+import {userActions} from './actions';
+
 class App extends Component {
+
+  componentDidMount(){
+    this.props.getUser(1)
+  }
+
   render() {
+    console.log(this.props)
     return (
       <div className="App">
         <header className="App-header">
@@ -24,5 +33,17 @@ class App extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const { user } = state.userReducers;
+  return {
+    user
+  }
+}
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    getUser: (id) => dispatch(userActions.get(id)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
